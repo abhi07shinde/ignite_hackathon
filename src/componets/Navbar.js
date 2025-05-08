@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import "./Navbar.css"; // Import the CSS file
 import bayer_logo from "../images/Bayer_Cross_1_white.svg";
-import logoutIcon from "../images/Log out.svg";
-import settingsIcon from "../images/settings.png";
-import auditIcon from "../images/audit.png";
-import globeIcon from '../images/Globe.svg'
 
 function Navbar(props) {
     const [userName, setUserName] = useState('Abhishek Shinde')
