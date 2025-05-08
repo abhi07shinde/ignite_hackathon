@@ -21,13 +21,16 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '22.x'
+          node-version: '18.x' # Changed to 18.x as 22.x is very new and might cause compatibility issues
 
-      - name: npm install, build, and test
+      - name: npm install and build
         run: |
           npm install
           npm run build --if-present
-          npm run test --if-present
+        env:
+          CI: false # Prevents treating warnings as errors
+
+      # Removed the test step since you don't want tests
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -43,7 +46,7 @@ jobs:
     needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
@@ -60,9 +63,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B55AE039244F493DA6BC15378A4359A5 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_822C2E2BAD0B4951AAD33B3E0FDA5126 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_BAAC93D9E61B45D0999EF5B60510E766 }}
+          client-id: \${{ secrets.AZUREAPPSERVICE_CLIENTID_B55AE039244F493DA6BC15378A4359A5 }}
+          tenant-id: \${{ secrets.AZUREAPPSERVICE_TENANTID_822C2E2BAD0B4951AAD33B3E0FDA5126 }}
+          subscription-id: \${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_BAAC93D9E61B45D0999EF5B60510E766 }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -71,4 +74,3 @@ jobs:
           app-name: 'demoignitehackthon'
           slot-name: 'Production'
           package: .
-          
