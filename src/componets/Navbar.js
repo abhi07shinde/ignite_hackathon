@@ -3,7 +3,7 @@ import "./Navbar.css"; // Import the CSS file
 import bayer_logo from "../images/Bayer_Cross_1_white.svg";
 
 function Navbar(props) {
-    const [userName, setUserName] = useState('Abhishek Shinde')
+    const [userName] = useState('Abhishek Shinde')
   // const length = (props.userName.length)
 //   const clearLocalStorage = () => {
 //     localStorage.clear();
